@@ -15,13 +15,19 @@ std::mutex Mutex;
 
 void HandleClient(const SOCKET clientSocket) {
     char messageBuffer[1024];
-    std::string username;
+    std::string userInfo;
     int bytesReceived = recv(clientSocket, messageBuffer, sizeof(messageBuffer), 0);
     if (bytesReceived > 0) {
         messageBuffer[bytesReceived] = '\0';
-        username = messageBuffer;
+        userInfo = messageBuffer;
+    }
+    int pos = userInfo.find(':');
+    std::string username = userInfo.substr(0, pos);
+    std::string password = userInfo.substr(pos + 1);
+
+    {
         std::lock_guard<std::mutex> lock(Mutex);
-        std::cout << "User: " << username << " connected" << std::endl;
+        std::cout << "username: " << username << " connected" << std::endl;
     }
 
     while (bytesReceived > 0) {
