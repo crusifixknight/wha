@@ -16,4 +16,10 @@ if (WIN32)
     target_link_libraries(untitled PRIVATE sqlite3 ws2_32)
 endif()
 
+add_custom_command(TARGET untitled POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${CMAKE_CURRENT_SOURCE_DIR}/SQLite/sqlite3.dll"
+    $<TARGET_FILE_DIR:untitled>
+)
+
 add_compile_options(-finput-charset=UTF-8 -fexec-charset=UTF-8)

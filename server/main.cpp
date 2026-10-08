@@ -45,10 +45,8 @@ int main() {
     SetConsoleCP(CP_UTF8);
     SetConsoleOutputCP(CP_UTF8);
 
-    print();
-
     WSADATA wsaData; // init lib
-    auto result = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    int result = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (result != 0) {
         std::cout << "WSAStartup failed with error: " << result << std::endl;
         return 1;
