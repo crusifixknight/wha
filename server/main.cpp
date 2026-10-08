@@ -86,6 +86,16 @@ int main() {
         return 1;
     }
 
+    result = open_db();
+    if (result != SQLITE_OK) {
+        std::cerr << "open_db() failed with error: " << result << std::endl;
+    }
+
+    result = create_table();
+    if (result != SQLITE_OK) {
+        std::cerr << "create_table() failed with error: " << result << std::endl;
+    }
+
     while (true) {
         SOCKET clientSocket = accept(listener, NULL, NULL);
         if (clientSocket == INVALID_SOCKET) {

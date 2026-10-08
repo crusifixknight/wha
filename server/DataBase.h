@@ -7,5 +7,5 @@
 #include "sqlite3.h"
 #include <iostream>
 
-int open_db();
-int create_table();
+[[nodiscard]] int open_db();
+[[nodiscard]] int create_table();
