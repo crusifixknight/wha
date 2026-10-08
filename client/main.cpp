@@ -57,11 +57,14 @@ int main() {
 
     std::cout << "Connected" << std::endl;
     std::string username;
+    std::string password;
     std::string message;
     std::cout << "Name: ";
     std::getline(std::cin, username);
-
-    int sendResult = send(client, username.c_str(), username.length(), 0);
+    std::cout << "Password: ";
+    std::getline(std::cin, password);
+    std::string userInfo = username + ':' + password;
+    int sendResult = send(client, userInfo.c_str(), userInfo.length(), 0);
     if (sendResult == SOCKET_ERROR) {
         std::cout << "send() failed with error: " << WSAGetLastError() << std::endl;
     }
