@@ -24,6 +24,9 @@ void HandleClient(const SOCKET clientSocket) {
     int pos = userInfo.find(':');
     std::string username = userInfo.substr(0, pos);
     std::string password = userInfo.substr(pos + 1);
+    std::string response;
+    checkAuth(username, password, response);
+    send(clientSocket, response.c_str(), response.size(), 0);
 
     {
         std::lock_guard<std::mutex> lock(Mutex);

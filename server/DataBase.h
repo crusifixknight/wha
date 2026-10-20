@@ -9,3 +9,4 @@
 
 [[nodiscard]] int open_db();
 [[nodiscard]] int create_table();
+[[nodiscard]] bool checkAuth(const std::string& login, const std::string& password, std::string& response);

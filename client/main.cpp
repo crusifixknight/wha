@@ -45,7 +45,7 @@ int main() {
     sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET; // тип адреса
     serverAddr.sin_port = htons(PORT); // порт
-    inet_pton(AF_INET, "192.168.52.159", &serverAddr.sin_addr);
+    inet_pton(AF_INET, "192.168.55.47", &serverAddr.sin_addr);
 
     result = connect(client, (sockaddr*)&serverAddr, sizeof(serverAddr));
 
