@@ -4,6 +4,8 @@
 
 #include "DataBase.h"
 
+#define DEBUG
+
 void print() {
     std::cout << SQLITE_VERSION << std::endl;
 }
@@ -39,12 +41,18 @@ bool checkAuth(const std::string &login, const std::string &password, std::strin
     // формирование запроса в stmt
     int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL);
     if (result != SQLITE_OK) {
+#ifdef DEBUG
+        std::cout << "error while formating stmt " << std::string(sqlite3_errmsg(db));
+#endif
         return false;
     }
 
     // подстановка логина вместо плейсхолдера (?), SQLITE_TRANSIENT - копирование значения во избежание его изменения за время ожидания
     result = sqlite3_bind_text(stmt, 1, login.c_str(), -1, SQLITE_TRANSIENT);
     if (result != SQLITE_OK) {
+#ifdef DEBUG
+        std::cout << "error while binding text " << std::string(sqlite3_errmsg(db));
+#endif
         return false;
     }
 
@@ -66,12 +74,15 @@ bool checkAuth(const std::string &login, const std::string &password, std::strin
 
     // регистрация
     else {
-        std::string sqlRegistration = "INSERT INTO USERS (LOGIN, PASSWORD) VALUES (?, ?)";
+        std::string sqlRegistration = "INSERT INTO USERS (LOGIN, PASSWORD) VALUES (?, ?);";
 
         sqlite3_stmt *insertStmt;
 
         result = sqlite3_prepare_v2(db, sqlRegistration.c_str(), -1, &insertStmt, NULL);
         if (result != SQLITE_OK) {
+#ifdef DEBUG
+            std::cout << "error while formating insertStmt " << std::string(sqlite3_errmsg(db));
+#endif
             return false;
         }
 
