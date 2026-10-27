@@ -45,7 +45,7 @@ int main() {
     sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET; // тип адреса
     serverAddr.sin_port = htons(PORT); // порт
-    inet_pton(AF_INET, "192.168.55.47", &serverAddr.sin_addr);
+    inet_pton(AF_INET, "127.0.0.1", &serverAddr.sin_addr);
 
     result = connect(client, (sockaddr*)&serverAddr, sizeof(serverAddr));
 
@@ -67,6 +67,16 @@ int main() {
     int sendResult = send(client, userInfo.c_str(), userInfo.length(), 0);
     if (sendResult == SOCKET_ERROR) {
         std::cout << "send() failed with error: " << WSAGetLastError() << std::endl;
+    }
+    char messageBuffer[1024];
+    int bytesReceived = recv(client, messageBuffer, sizeof(messageBuffer), 0);
+    if (bytesReceived > 0) {
+        messageBuffer[bytesReceived] = '\0';
+        std::cout << "\n" << messageBuffer << std::endl;
+    }
+    else {
+        std::cout << "Server close the connection" << std::endl;
+        exit(0);
     }
 
     std::thread receiveThread(receive, client);
